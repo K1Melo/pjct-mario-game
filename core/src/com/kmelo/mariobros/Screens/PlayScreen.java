@@ -18,7 +18,10 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.kmelo.mariobros.MarioBros;
 import com.kmelo.mariobros.Scenes.Hud;
+import com.kmelo.mariobros.Sprites.Brick;
+import com.kmelo.mariobros.Sprites.Coin;
 import com.kmelo.mariobros.Sprites.Mario;
+import com.kmelo.mariobros.Tools.B2WorldCreator;
 
 public class PlayScreen implements Screen {
 
@@ -55,27 +58,22 @@ public class PlayScreen implements Screen {
         world = new World(new Vector2(0, -5), true);
         b2dr = new Box2DDebugRenderer();
 
-        player = new Mario(this.world);
+        new B2WorldCreator(world, map);
 
-        BodyDef bdef = new BodyDef();
-        PolygonShape shape = new PolygonShape();
-        FixtureDef fdef = new FixtureDef();
-        Body body;
 
-        for(int i = 2; i < 6; i++) {
-            for(MapObject object : map.getLayers().get(i). getObjects().getByType(RectangleMapObject.class)) {
-                Rectangle rect = ((RectangleMapObject) object).getRectangle();
+        for(MapObject object : map.getLayers().get(4). getObjects().getByType(RectangleMapObject.class)) {
+            Rectangle rect = ((RectangleMapObject) object).getRectangle();
 
-                bdef.type = BodyDef.BodyType.StaticBody;
-                bdef.position.set((rect.getX() + rect.getWidth() / 2) / MarioBros.PPM, (rect.getY() + rect.getHeight() / 2) / MarioBros.PPM);
-
-                body = world.createBody(bdef);
-
-                shape.setAsBox((rect.getWidth() / 2) / MarioBros.PPM, (rect.getHeight() / 2) / MarioBros.PPM);
-                fdef.shape = shape;
-                body.createFixture(fdef);
-            }
+            new Coin(world, map, rect);
         }
+
+        for(MapObject object : map.getLayers().get(5). getObjects().getByType(RectangleMapObject.class)) {
+            Rectangle rect = ((RectangleMapObject) object).getRectangle();
+
+            new Brick(world, map, rect);
+        }
+
+        player = new Mario(this.world);
     }
     @Override
     public void show() {
@@ -144,6 +142,10 @@ public class PlayScreen implements Screen {
 
     @Override
     public void dispose() {
-
+        map.dispose();
+        renderer.dispose();
+        world.dispose();
+        b2dr.dispose();
+        hud.dispose();
     }
 }
