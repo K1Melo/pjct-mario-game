@@ -13,6 +13,7 @@ public abstract class InteractiveTileObject {
     protected Rectangle bounds;
     protected Body body;
 
+    protected Fixture fixture;
     public InteractiveTileObject(World world, TiledMap map, Rectangle bounds) {
         this.world = world;
         this.map = map;
@@ -29,6 +30,8 @@ public abstract class InteractiveTileObject {
 
         shape.setAsBox((bounds.getWidth() / 2) / MarioBros.PPM, (bounds.getHeight() / 2) / MarioBros.PPM);
         fdef.shape = shape;
-        body.createFixture(fdef);
+        fixture = body.createFixture(fdef);
     }
+
+    public abstract void onHeadHit();
 }

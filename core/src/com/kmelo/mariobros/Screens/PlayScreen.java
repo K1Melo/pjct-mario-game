@@ -23,6 +23,7 @@ import com.kmelo.mariobros.Sprites.Brick;
 import com.kmelo.mariobros.Sprites.Coin;
 import com.kmelo.mariobros.Sprites.Mario;
 import com.kmelo.mariobros.Tools.B2WorldCreator;
+import com.kmelo.mariobros.Tools.WorldContactListener;
 
 public class PlayScreen implements Screen {
 
@@ -59,7 +60,7 @@ public class PlayScreen implements Screen {
 
         gameView.position.set(gamePortable.getWorldWidth() / 2, gamePortable.getWorldHeight() / 2, 0);
 
-        world = new World(new Vector2(0, -5), true);
+        world = new World(new Vector2(0, -10), true);
         b2dr = new Box2DDebugRenderer();
 
         new B2WorldCreator(world, map);
@@ -75,9 +76,12 @@ public class PlayScreen implements Screen {
             Rectangle rect = ((RectangleMapObject) object).getRectangle();
 
             new Brick(world, map, rect);
+
         }
 
         player = new Mario(world, this);
+
+        world.setContactListener(new WorldContactListener());
     }
 
     public TextureAtlas getAtlas() {
@@ -91,7 +95,7 @@ public class PlayScreen implements Screen {
 
     public void handleInput(float dt) {
         if(Gdx.input.isKeyJustPressed(Input.Keys.UP)) {
-            player.b2body.applyLinearImpulse(new Vector2(0, 2.7f), player.b2body.getWorldCenter(), true);
+            player.b2body.applyLinearImpulse(new Vector2(0, 3.7f), player.b2body.getWorldCenter(), true);
         }
 
         if (Gdx.input.isKeyPressed(Input.Keys.RIGHT) && player.b2body.getLinearVelocity().x <= 2) {
