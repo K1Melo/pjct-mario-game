@@ -62,13 +62,13 @@ public class Mario extends Sprite {
 
         TextureRegion region;
         switch (currentState) {
+            case FALLING:
             case JUMPING:
                 region = (TextureRegion) marioJump.getKeyFrame(stateTimer);
                 break;
             case RUNNING:
                 region = (TextureRegion) marioRun.getKeyFrame(stateTimer, true);
                 break;
-            case FALLING:
             case STANDING:
             default:
                 region = marioStand;
@@ -111,13 +111,17 @@ public class Mario extends Sprite {
 
         FixtureDef fdef = new FixtureDef();
         CircleShape shape = new CircleShape();
+
         shape.setRadius((float) 6 / MarioBros.PPM);
+        fdef.filter.categoryBits = MarioBros.MARIO_BIT;
+        fdef.filter.maskBits = MarioBros.DEFAULT_BIT | MarioBros.COIN_BIT | MarioBros.BRICK_BIT;
 
         fdef.shape = shape;
         b2body.createFixture(fdef);
 
         EdgeShape head = new EdgeShape();
         head.set(new Vector2((float) -2 / MarioBros.PPM, (float) 7 /  MarioBros.PPM), new Vector2((float) 2 / MarioBros.PPM, (float) 7 /  MarioBros.PPM));
+
         fdef.shape = head;
         fdef.isSensor = true;
 

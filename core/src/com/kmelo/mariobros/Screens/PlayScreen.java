@@ -25,6 +25,9 @@ import com.kmelo.mariobros.Sprites.Mario;
 import com.kmelo.mariobros.Tools.B2WorldCreator;
 import com.kmelo.mariobros.Tools.WorldContactListener;
 
+import static com.kmelo.mariobros.Sprites.Mario.State.FALLING;
+import static com.kmelo.mariobros.Sprites.Mario.State.JUMPING;
+
 public class PlayScreen implements Screen {
 
     private MarioBros game;
@@ -65,20 +68,6 @@ public class PlayScreen implements Screen {
 
         new B2WorldCreator(world, map);
 
-
-        for(MapObject object : map.getLayers().get(4). getObjects().getByType(RectangleMapObject.class)) {
-            Rectangle rect = ((RectangleMapObject) object).getRectangle();
-
-            new Coin(world, map, rect);
-        }
-
-        for(MapObject object : map.getLayers().get(5). getObjects().getByType(RectangleMapObject.class)) {
-            Rectangle rect = ((RectangleMapObject) object).getRectangle();
-
-            new Brick(world, map, rect);
-
-        }
-
         player = new Mario(world, this);
 
         world.setContactListener(new WorldContactListener());
@@ -94,7 +83,7 @@ public class PlayScreen implements Screen {
     }
 
     public void handleInput(float dt) {
-        if(Gdx.input.isKeyJustPressed(Input.Keys.UP)) {
+        if(Gdx.input.isKeyJustPressed(Input.Keys.UP) && !(player.currentState == JUMPING || player.currentState == FALLING)) {
             player.b2body.applyLinearImpulse(new Vector2(0, 3.7f), player.b2body.getWorldCenter(), true);
         }
 
@@ -117,6 +106,7 @@ public class PlayScreen implements Screen {
         gameView.position.x = player.b2body.getPosition().x;
 
         gameView.update();
+
         renderer.setView(gameView);
     }
 
