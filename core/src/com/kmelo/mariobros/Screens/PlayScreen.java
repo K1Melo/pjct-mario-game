@@ -69,9 +69,9 @@ public class PlayScreen implements Screen {
         world = new World(new Vector2(0, -10), true);
         b2dr = new Box2DDebugRenderer();
 
-        new B2WorldCreator(world, map);
+        new B2WorldCreator(this);
 
-        player = new Mario(world, this);
+        player = new Mario(this);
 
         world.setContactListener(new WorldContactListener());
 
@@ -142,6 +142,14 @@ public class PlayScreen implements Screen {
     @Override
     public void resize(int width, int height) {
         gamePortable.update(width, height);
+    }
+
+    public TiledMap getMap() {
+        return map;
+    }
+
+    public World getWorld() {
+        return world;
     }
 
     @Override

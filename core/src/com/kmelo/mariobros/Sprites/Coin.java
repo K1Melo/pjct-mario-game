@@ -11,13 +11,14 @@ import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.kmelo.mariobros.MarioBros;
 import com.kmelo.mariobros.Scenes.Hud;
+import com.kmelo.mariobros.Screens.PlayScreen;
 
 public class Coin extends InteractiveTileObject{
     private static TiledMapTileSet tileSet;
     private final int BLANK_COIN = 28;
 
-    public Coin(World world, TiledMap map, Rectangle bounds) {
-        super(world, map, bounds);
+    public Coin(PlayScreen screen, Rectangle bounds) {
+        super(screen, bounds);
         tileSet = map.getTileSets().getTileSet("tileset_gutter");
         fixture.setUserData(this);
         setCategoryFilter(MarioBros.COIN_BIT);
