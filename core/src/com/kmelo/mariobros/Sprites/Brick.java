@@ -8,6 +8,7 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.kmelo.mariobros.MarioBros;
+import com.kmelo.mariobros.Scenes.Hud;
 
 public class Brick extends InteractiveTileObject{
     public Brick(World world, TiledMap map, Rectangle bounds) {
@@ -18,8 +19,8 @@ public class Brick extends InteractiveTileObject{
 
     @Override
     public void onHeadHit() {
-        System.out.println("Quebrou");
         setCategoryFilter(MarioBros.DESTROYED_BIT);
         getCell().setTile(null);
+        Hud.addScore(50);
     }
 }
