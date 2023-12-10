@@ -37,7 +37,8 @@ public class Goomba extends Enemy {
     }
 
     @Override
-    protected void defineEnemy() {
+    protected void defineEnemy()
+    {
         BodyDef bdef = new BodyDef();
         bdef.position.set((float) 32 / MarioBros.PPM,(float) 32 / MarioBros.PPM);
         bdef.type = BodyDef.BodyType.DynamicBody;
