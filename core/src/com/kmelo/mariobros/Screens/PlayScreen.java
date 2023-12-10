@@ -22,6 +22,7 @@ import com.kmelo.mariobros.MarioBros;
 import com.kmelo.mariobros.Scenes.Hud;
 import com.kmelo.mariobros.Sprites.Brick;
 import com.kmelo.mariobros.Sprites.Coin;
+import com.kmelo.mariobros.Sprites.Goomba;
 import com.kmelo.mariobros.Sprites.Mario;
 import com.kmelo.mariobros.Tools.B2WorldCreator;
 import com.kmelo.mariobros.Tools.WorldContactListener;
@@ -47,6 +48,8 @@ public class PlayScreen implements Screen {
     private Box2DDebugRenderer b2dr;
 
     private Mario player;
+    private Goomba goomba;
+
     private TextureAtlas atlas;
 
     private Music music;
@@ -78,6 +81,8 @@ public class PlayScreen implements Screen {
         music = MarioBros.manager.get("audio/music/mario_music.ogg", Music.class);
         music.setLooping(true);
         music.play();
+
+        goomba = new Goomba(this, .32f, .32f);
     }
 
     public TextureAtlas getAtlas() {
@@ -109,6 +114,7 @@ public class PlayScreen implements Screen {
         world.step(1/60f, 6, 2);
 
         player.update(dt);
+        goomba.update(dt);
 
         hud.update(dt);
 
@@ -133,6 +139,8 @@ public class PlayScreen implements Screen {
         game.batch.setProjectionMatrix(gameView.combined);
         game.batch.begin();
         player.draw(game.batch);
+        goomba.draw(game.batch);
+
         game.batch.end();
 
         game.batch.setProjectionMatrix(hud.stage.getCamera().combined);
